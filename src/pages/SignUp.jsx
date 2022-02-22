@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../firebase.config';
 import {ReactComponent as ArrowRightIcon} from '../assets/svg/keyboardArrowRightIcon.svg';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
 
@@ -23,6 +26,30 @@ const SignUp = () => {
     }))
   }
 
+  const onSubmit = async (e) => {
+    console.log('Check button');
+    e.preventDefault()
+
+    try {
+      const auth = getAuth();
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      updateProfile(auth.currentUser, {displayName: name});
+      // nak copy data dari formData untuk guna kat db
+      const formDataCopy = { ...formData };
+      // delete password sebab tak guna pun
+      delete formDataCopy.password;
+      // tambah timestamp user masuk db
+      formDataCopy.timestamp = serverTimestamp();
+      // masukkan data dalam db table users and define user uid then data dia is formDataCopy
+      await setDoc(doc(db, 'users', user.uid), formDataCopy);
+      navigate('/');
+
+    } catch (error) {
+      console.log('Apa error user', error);
+    }
+  }
+
   return (
     <>
       <div className='pageContainer'>
@@ -30,7 +57,7 @@ const SignUp = () => {
           <p className='pageHeader'>Welcome Back!</p>
         </header>
         <main>
-          <form action="">
+          <form onSubmit={onSubmit}>
             <input type="text" className='nameInput' placeholder='Name' id='name' value={name} onChange={onChange}/>
             <input type="email" className='emailInput' placeholder='Email' id='email' value={email} onChange={onChange}/>
             <div className="passwordInputDiv">
