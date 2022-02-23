@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg';
 import visibilityIcon from '../assets/svg/visibilityIcon.svg';
+import OAuth from '../components/OAuth';
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -32,9 +34,11 @@ const SignIn = () => {
       if (userCredential.user) {
         navigate('/profile');
       }
+      toast.success('Login Successful');
       console.log('Success Login');
       
     } catch (error) {
+      toast.error('Bad credentials', error);
       console.log('Login Error', error);
     }
 
@@ -59,7 +63,10 @@ const SignIn = () => {
               <button className='signInButton'><ArrowRightIcon fill='white' width='34px'/></button>
             </div>
           </form>
+
           {/* Google OAuth Component */}
+          <OAuth />
+
           <Link to='/sign-up' className='registerLink'>
             Sign Up Instead
           </Link>

@@ -1,5 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import PrivateRoute from './components/PrivateRoute';
 import Explore from './pages/Explore';
 import ForgotPassword from './pages/ForgotPassword';
 import Offers from './pages/Offers';
@@ -13,15 +16,18 @@ const App = () => {
     <>
       <Router>
         <Routes>
-          <Route path='/' element={<Explore/>} />
-          <Route path='/forgotpassword' element={<ForgotPassword/>} />
-          <Route path='/offers' element={<Offers/>} />
-          <Route path='/profile' element={<Profile/>} />
-          <Route path='/sign-in' element={<SignIn/>} />
-          <Route path='/sign-up' element={<SignUp/>} />
+          <Route path='/' element={<Explore />} />
+          <Route path='/forgotpassword' element={<ForgotPassword />} />
+          <Route path='/offers' element={<Offers />} />
+          <Route path='/profile' element={<PrivateRoute />}>
+            <Route path='/profile' element={<Profile />} />
+          </Route>
+          <Route path='/sign-in' element={<SignIn />} />
+          <Route path='/sign-up' element={<SignUp />} />
         </Routes>
         <Navbar/>
       </Router>
+      <ToastContainer />
       {/* <h1>Test APp</h1> */}
     </>
   );
