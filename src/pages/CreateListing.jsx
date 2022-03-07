@@ -22,14 +22,14 @@ const CreateListing = () => {
   const [formData, setFormData] = useState({
     type: 'rent',
     name: '',
-    bedroom: 1,
-    bathroom: 1,
+    bedrooms: 1,
+    bathrooms: 1,
     parking: false,
     furnished: false,
     address: '',
     offer: false,
     regularPrice: 0,
-    discountedPrice: 0,
+    discountPrice: 0,
     images: {},
     latitude: 0,
     longitude: 0,
@@ -38,14 +38,14 @@ const CreateListing = () => {
   const {
     type,
     name,
-    bedroom,
-    bathroom,
+    bedrooms,
+    bathrooms,
     parking,
     furnished,
     address,
     offer,
     regularPrice,
-    discountedPrice,
+    discountPrice,
     images,
     latitude,
     longitude,
@@ -83,7 +83,7 @@ const CreateListing = () => {
     console.log('Check Submit Data', formData);
 
     setLoading(true);
-    if (discountedPrice >= regularPrice) {
+    if (discountPrice >= regularPrice) {
       setLoading(false);
       toast.error('Discounted price need to be less than regular price');
       return;
@@ -173,7 +173,7 @@ const CreateListing = () => {
       });
     };
 
-    const imgUrls = await Promise.all(
+    const imageUrls = await Promise.all(
       [...images].map((image) => storeImage(image))
     ).catch(() => {
       setLoading(false);
@@ -183,7 +183,7 @@ const CreateListing = () => {
 
     const formDataCopy = {
       ...formData,
-      imgUrls,
+      imageUrls,
       geolocation,
       timestamp: serverTimestamp(),
     };
@@ -191,11 +191,13 @@ const CreateListing = () => {
     delete formDataCopy.images;
     delete formDataCopy.address;
     location && (formDataCopy.location = location);
-    !formDataCopy.offer && delete formDataCopy.discountedPrice;
+    !formDataCopy.offer && delete formDataCopy.discountPrice;
+
+    console.log('Dalam formDataCopy: ', formDataCopy);
 
     const docRef = await addDoc(collection(db, 'listings'), formDataCopy);
 
-    console.log('Image Saved', imgUrls);
+    console.log('Image Saved', imageUrls);
     setLoading(false);
     toast.success('Listing Saved');
     navigate(`/category/${formDataCopy.type}/${docRef.id}`);
@@ -278,8 +280,8 @@ const CreateListing = () => {
               <input
                 type='number'
                 className='formInputSmall'
-                id='bedroom'
-                value={bedroom}
+                id='bedrooms'
+                value={bedrooms}
                 onChange={onMutate}
                 min='1'
                 max='50'
@@ -291,8 +293,8 @@ const CreateListing = () => {
               <input
                 type='number'
                 className='formInputSmall'
-                id='bathroom'
-                value={bathroom}
+                id='bathrooms'
+                value={bathrooms}
                 onChange={onMutate}
                 min='1'
                 max='50'
@@ -441,8 +443,8 @@ const CreateListing = () => {
                 <input
                   type='number'
                   className='formInputSmall'
-                  id='discountedPrice'
-                  value={discountedPrice}
+                  id='discountPrice'
+                  value={discountPrice}
                   onChange={onMutate}
                   min='50'
                   max='999999999'
