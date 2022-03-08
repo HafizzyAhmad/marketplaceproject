@@ -188,9 +188,11 @@ const CreateListing = () => {
       timestamp: serverTimestamp(),
     };
 
+    formDataCopy.location = address;
     delete formDataCopy.images;
     delete formDataCopy.address;
-    location && (formDataCopy.location = location);
+    // COMMENT LOCATION DUE TO ADDRESS FORMAT ISSUE
+    // location && (formDataCopy.location = location);
     !formDataCopy.offer && delete formDataCopy.discountPrice;
 
     console.log('Dalam formDataCopy: ', formDataCopy);
