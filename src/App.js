@@ -6,6 +6,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Explore from './pages/Explore';
 import Category from './pages/Category';
 import Contact from './pages/Contact';
+import EditListing from './pages/EditListing';
 import ForgotPassword from './pages/ForgotPassword';
 import Listing from './pages/Listing';
 import Offers from './pages/Offers';
@@ -35,6 +36,7 @@ const App = () => {
           <Route path='/sign-in' element={<SignIn />} />
           <Route path='/sign-up' element={<SignUp />} />
           <Route path='/create-listing' element={<CreateListing />} />
+          <Route path='/edit-listing/:listingId' element={<EditListing />} />
         </Routes>
         <Navbar />
       </Router>
