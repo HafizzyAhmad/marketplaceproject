@@ -17,7 +17,7 @@ const CreateListing = () => {
   const [loading, setLoading] = useState(false);
 
   // TEMPORARY SET TO FALSE UNTIL ACTIVATE BILLING FOR GOOGLE CLOUD CONSOLE
-  const [geolocationEnabled, setGeolocationEnabled] = useState(false);
+  const [geolocationEnabled, setGeolocationEnabled] = useState(true);
 
   const [formData, setFormData] = useState({
     type: 'rent',
@@ -107,7 +107,7 @@ const CreateListing = () => {
       console.log('Submit data untuk geocoding google', data);
 
       geolocation.lat = data.results[0]?.geometry.location.lat ?? 0;
-      geolocation.lng = data.results[0]?.geometry.location.lng ?? 0;
+      geolocation.long = data.results[0]?.geometry.location.lng ?? 0;
 
       location =
         data.status === 'ZERO_RESULTS'
