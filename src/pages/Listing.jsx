@@ -55,10 +55,11 @@ const Listing = () => {
         {listing.imageUrls.map((url, index) => (
           <SwiperSlide key={index}>
             <img
-              src={listing.imageUrls}
+              src={listing.imageUrls[index]} // Kena letak index baru boleh baca item dalam array, kalau tak letak nnti dalam multiple array akan dapat data yang sama
               alt=''
               className='swiperSlideImg'
               style={{ backgroundSize: 'cover' }}
+              height='300'
             />
             {/* <div
               className='swiperSlideImg'
@@ -68,14 +69,6 @@ const Listing = () => {
                 height: '100',
               }}
             /> */}
-            {/* <div
-              style={{
-                background: `url(${listing.imageUrls[index]}) center no-repeat`,
-                backgroundSize: 'cover',
-                // height: '100%',
-              }}
-              className='swiper-slide'
-            ></div> */}
           </SwiperSlide>
         ))}
       </Swiper>

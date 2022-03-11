@@ -60,7 +60,7 @@ const Slider = () => {
             >
               <div
                 style={{
-                  background: `url(${data.imageUrls[0]}) center no-repeat`,
+                  background: `url(${data.imageUrls[0]}) center no-repeat`, //index 0 sebab nak dapat item yang index 0 je dalam slider
                   backgroundSize: 'cover',
                   height: 300, //KENA EXPLORE KENAPA KENA HEIGH TAK BACA DALAM CLASS
                 }}
